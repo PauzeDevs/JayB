@@ -20,42 +20,50 @@ if (menuButton && navigation) {
 const year = document.querySelector("#year");
 if (year) year.textContent = new Date().getFullYear();
 
-// Scroll reveals: IntersectionObserver keeps work off the scroll thread.
-if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-  const revealTargets = [
-    ".section-kicker",
+// Scroll reveals. Keep native scrolling untouched and observe only once per element.
+(() => {
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduceMotion) return;
+
+  const selectors = [
     ".intro-copy > *",
     ".portrait-card",
-    ".section-heading > *",
+    ".section-heading",
     ".release-card",
-    ".all-music > *",
+    ".all-music",
     ".credit-row",
     ".platform-intro > *",
     ".platform-grid a",
     ".platform-note",
     ".social-row a",
     ".contact-copy > *"
-  ].join(",");
+  ];
 
-  const revealItems = document.querySelectorAll(revealTargets);
-  if (revealItems.length) {
-    document.documentElement.classList.add("reveal-enabled");
-    const revealObserver = new IntersectionObserver((entries, observer) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
+  const items = document.querySelectorAll(selectors.join(","));
+  if (!items.length) return;
+
+  // Reveal styles are enabled only after the observer is ready, preventing
+  // content from remaining invisible if the browser lacks observer support.
+  if (!("IntersectionObserver" in window)) return;
+
+  const observer = new IntersectionObserver((entries, activeObserver) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting || entry.intersectionRatio > 0) {
         entry.target.classList.add("is-revealed");
-        observer.unobserve(entry.target);
-      });
-    }, {
-      root: null,
-      rootMargin: "0px 0px -7% 0px",
-      threshold: 0.08
+        activeObserver.unobserve(entry.target);
+      }
     });
+  }, {
+    root: null,
+    rootMargin: "0px 0px -2% 0px",
+    threshold: 0
+  });
 
-    revealItems.forEach((item, index) => {
-      item.classList.add("reveal-item");
-      item.style.setProperty("--reveal-delay", `${Math.min(index % 4, 3) * 65}ms`);
-      revealObserver.observe(item);
-    });
-  }
-}
+  items.forEach((item, index) => {
+    item.classList.add("reveal-item");
+    item.style.setProperty("--reveal-delay", `${(index % 3) * 55}ms`);
+    observer.observe(item);
+  });
+
+  document.documentElement.classList.add("reveal-enabled");
+})();
