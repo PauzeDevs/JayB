@@ -96,22 +96,19 @@
 }
 
 
-/* Scroll reveal: animate compositor-friendly properties only. */
+/* Scroll reveal: only opacity and transform are animated for smooth rendering. */
 html { scroll-behavior: smooth; scroll-padding-top: 84px; }
 .reveal-enabled .reveal-item {
   opacity: 0;
-  transform: translate3d(0, 22px, 0);
-  transition:
-    opacity 560ms cubic-bezier(.2,.7,.2,1),
-    transform 560ms cubic-bezier(.2,.7,.2,1);
+  transform: translate3d(0, 18px, 0);
+  transition: opacity 480ms ease-out, transform 480ms ease-out;
   transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
 }
 .reveal-enabled .reveal-item.is-revealed {
   opacity: 1;
   transform: translate3d(0, 0, 0);
-}
-@media (max-width: 760px) {
-  .reveal-enabled .reveal-item { transform: translate3d(0, 16px, 0); }
+  will-change: auto;
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -119,5 +116,6 @@ html { scroll-behavior: smooth; scroll-padding-top: 84px; }
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
+    will-change: auto;
   }
 }
