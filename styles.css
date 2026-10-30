@@ -56,3 +56,14 @@
   .hero-bottom { max-width: 100%; }
   .portrait-card { width: 100%; }
 }
+
+
+/* Dedicated release cover artwork */
+.release-art { overflow: hidden; background: #321c18; }
+.release-art img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1.22 / 1;
+  object-fit: cover;
+}
