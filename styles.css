@@ -67,3 +67,10 @@
   aspect-ratio: 1.22 / 1;
   object-fit: cover;
 }
+
+
+/* Clean hero treatment: no framed orange outline or logo punctuation */
+.hero:before { content: none !important; display: none !important; }
+.hero-caption { display: none !important; }
+.site-header .wordmark span,
+.footer .wordmark span { display: none !important; }
