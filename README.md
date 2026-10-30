@@ -4,6 +4,8 @@ A responsive artist portfolio concept for JayB Singh, built with plain HTML, CSS
 
 **Repository:** [https://github.com/PauzeDevs/JayB](https://github.com/PauzeDevs/JayB)
 
+**Website:** [https://pauzedevs.github.io/JayB/](https://pauzedevs.github.io/JayB/) *(GitHub Pages URL; the site must be enabled in repository Settings → Pages to go live.)*
+
 ## Preview locally
 
 No build tools or dependencies are required. Open `index.html` in a browser.
